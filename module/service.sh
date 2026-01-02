@@ -12,7 +12,7 @@ fi
 
 [ -f "$CONFIG" ] || exit 0
 
-for kpm in "$KPNDIR/kpm/*.kpm"; do
+for kpm in $KPNDIR/kpm/*.kpm; do
     [ -s "$kpm" ] || continue
     kpatch "$key" kpm load "$kpm"
 done
