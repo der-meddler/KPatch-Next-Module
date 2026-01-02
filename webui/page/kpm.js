@@ -43,7 +43,7 @@ async function getKpmList() {
     }
 
     const listResult = await exec(`kpatch ${superkey} kpm list`, { env: { PATH: `${modDir}/bin` } });
-    const modules = listResult.stdout.trim().split('\n').filter(line => line.trim()).sort();
+    const modules = listResult.stdout.trim().split('\n').filter(line => line.trim());
 
     const modulePromises = modules.map(async (moduleName) => {
         const infoResult = await exec(`kpatch ${superkey} kpm info ${moduleName}`, { env: { PATH: `${modDir}/bin` } });
@@ -58,7 +58,8 @@ async function getKpmList() {
         return moduleInfo;
     });
 
-    return await Promise.all(modulePromises);
+    const results = await Promise.all(modulePromises);
+    return results.sort((a, b) => (a.name || '').toLowerCase().localeCompare((b.name || '').toLowerCase()));
 }
 
 async function controlModule(moduleName, action) {
@@ -67,7 +68,7 @@ async function controlModule(moduleName, action) {
 }
 
 function forgetModule(moduleName) {
-    exec(`rm -f ${persistDir}/kpm/${moduleName}.kpm`, { env: { PATH: `${modDir}/bin` } });
+    exec(`rm -f "${persistDir}/kpm/${moduleName}.kpm"`);
 }
 
 async function unloadModule(moduleName) {
