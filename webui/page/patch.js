@@ -287,7 +287,7 @@ async function embedKPM() {
                 return;
             }
 
-            const result = await exec(`kptools -l -M ${randName}`, {
+            const result = await exec(`kptools -l -M "${randName}"`, {
                 cwd: `${modDir}/tmp`,
                 env: { PATH: `${modDir}/bin:$PATH` }
             });
