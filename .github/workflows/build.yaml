@@ -10,6 +10,7 @@ on:
 
 env:
   MODULE_NAME: 'KPatch-Next-Module'
+  GH_TOKEN: ${{ github.token }}
 
 jobs:
   build:
@@ -26,21 +27,10 @@ jobs:
     - name: download kpatch-next binaries (latest release)
       run: |
         mkdir -p module/bin
-        LATEST_TAG=$(curl -s https://api.github.com/repos/KernelSU-Next/KPatch-Next/releases/latest \
-                     | grep '"tag_name":' \
-                     | sed -E 's/.*"([^"]+)".*/\1/')
-        echo "Latest tag: $LATEST_TAG"
-        ASSETS_URL="https://github.com/KernelSU-Next/KPatch-Next/releases/download/$LATEST_TAG"
-        FILES=("kpatch-android" "kptools-android" "kpimg-linux")
-        for f in "${FILES[@]}"; do
-          echo "Downloading $f..."
-          curl -sL "$ASSETS_URL/$f" -o "module/bin/$f"
-          case $f in
-            "kpatch-android") mv "module/bin/$f" "module/bin/kpatch" ;;
-            "kptools-android") mv "module/bin/$f" "module/bin/kptools" ;;
-            "kpimg-linux") mv "module/bin/$f" "module/bin/kpimg" ;;
-          esac
-        done
+        gh release download -R KernelSU-Next/KPatch-Next -p "kpatch-android" -p "kptools-android" -p "kpimg-linux" -D module/bin
+        mv module/bin/kpatch-android module/bin/kpatch
+        mv module/bin/kptools-android module/bin/kptools
+        mv module/bin/kpimg-linux module/bin/kpimg
 
     - name: build webroot
       run: |
