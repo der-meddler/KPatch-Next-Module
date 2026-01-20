@@ -1,6 +1,7 @@
 import { exec, spawn, toast } from 'kernelsu-alt';
 import { modDir, persistDir, initInfo, MAX_CHUNK_SIZE, linkRedirect } from '../index.js';
 import { getString } from '../language.js';
+import { setupPullToRefresh } from '../pull-to-refresh.js';
 
 let allKpms = [];
 let searchQuery = '';
@@ -425,6 +426,11 @@ export function initKPMPage() {
     });
 
     document.getElementById('load').onclick = () => uploadAndLoadModule();
+
+    setupPullToRefresh(document.querySelector('#kpm-page .page-content'), async () => {
+        kpmItemMap.clear();
+        await refreshKpmList();
+    });
 }
 
 export { loadModule, refreshKpmList, handleFileUpload, uploadFile }

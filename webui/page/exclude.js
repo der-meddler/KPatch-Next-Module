@@ -1,6 +1,7 @@
 import { listPackages, getPackagesInfo, exec } from 'kernelsu-alt';
 import { modDir, persistDir } from '../index.js';
 import { getString } from '../language.js';
+import { setupPullToRefresh } from '../pull-to-refresh.js';
 import fallbackIcon from '../icon.png';
 
 let allApps = [];
@@ -310,6 +311,11 @@ function initExcludePage() {
         appItemMap.clear();
         refreshAppList();
     };
+
+    setupPullToRefresh(document.querySelector('#exclude-page .page-content'), async () => {
+        appItemMap.clear();
+        await refreshAppList();
+    });
 
     // init render
     refreshAppList();
