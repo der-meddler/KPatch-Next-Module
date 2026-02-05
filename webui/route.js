@@ -62,7 +62,7 @@ function preparePatchUI(title, isUnpatch) {
     document.querySelectorAll('.unpatch-only').forEach(p => p.classList.toggle('hidden', !isUnpatch));
 }
 
-export function navigateToHome() {
+function navigateToHome() {
     switchPage('home-page', 'KPatch Next', 'home');
 }
 

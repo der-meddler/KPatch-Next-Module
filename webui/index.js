@@ -1,6 +1,6 @@
 import '@material/web/all.js';
 import { exec, toast } from 'kernelsu-alt';
-import { setupRoute, navigateToHome } from './route.js';
+import { setupRoute } from './route.js';
 import { getString, loadTranslations } from './language.js';
 import * as patchModule from './page/patch.js';
 import * as kpmModule from './page/kpm.js';
